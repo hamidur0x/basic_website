@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="media/icon.png">
+    <title>Hamidur Rahman</title>
+    <style>
+        :root {
+            --primary: #17c35c;
+            --secondary: #303032;
+            --accent: #7ca033;
+            --text: #e4e4e4;
+            --dark: #1a1a1c;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--secondary);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            min-width: 100%;
+            min-height: 100%;
+            object-fit: cover;
+            opacity: 1;
+        }
+
+        .background::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(48, 48, 50, 0.9), rgba(26, 26, 28, 0.95));
+        }
+
+
+        nav {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 24px;
+            border-radius: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        ul {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .myself {
+            position: relative;
+            padding-top: 120px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .photo img {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            box-shadow: 0 0 40px rgba(72, 255, 0, 0.2);
+            margin-bottom: 30px;
+        }
+
+        .heading {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .heading h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: rgb(142, 202, 215);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .heading p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 40px;
+        }
+
+
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .social img {
+            width: 40px;
+            height: 40px;
+            transition: var(--transition);
+            filter: grayscale(1);
+        }
+
+        .social img:hover {
+            transform: translateY(-5px);
+            filter: grayscale(0);
+        }
+
+        .social a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .social a:hover {
+            color: var(--primary);
+        }
+
+        .social a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .social a:hover::after {
+            width: 100%;
+        }
+
+        .all_skills {
+            padding: 80px 0;
+            position: relative;
+        }
+
+        .sub-skills {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .sub-skills span {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .sub-skills span:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-3px);
+        }
+
+        .project-item:nth-child(n+4) {
+            display: none;
+        }
+
+        .project-main.show-all .project-item {
+            display: block;
+        }
+
+        #seeMoreBtn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 30px;
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        #seeMoreBtn:hover {
+            background: #14a049;
+            transform: translateY(-2px);
+        }
+
+        .project {
+            position: relative;
+            padding: 80px 0;
+        }
+
+        .project-main {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 40px 0;
+        }
+
+        .project-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: var(--transition);
+        }
+
+        .project-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .project-text {
+            padding: 20px;
+        }
+
+        .project a {
+            text-decoration: none;
+            color: rgb(255, 255, 255);
+        }
+
+        .project a:hover {
+            color: var(--primary);
+        }
+
+        .faq-main {
+            position: relative;
+        }
+
+        .faq-main h1 {
+            padding-bottom: 50px;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding: 0 20px;
+            color: #ccc;
+        }
+
+        input[type="checkbox"]:checked~.faq-answer {
+            max-height: 200px;
+            padding: 20px;
+        }
+
+        .faq-question {
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 20px;
+            font-size: 1.5rem;
+            color: var(--primary);
+            transition: transform 0.3s ease;
+        }
+
+        input[type="checkbox"]:checked~.faq-question::after {
+            content: '−';
+            transform: rotate(180deg);
+        }
+
+        @media (max-width: 768px) {
+            .main {
+                padding: 0 15px;
+            }
+
+            nav {
+                padding: 10px 15px;
+                top: 10px;
+            }
+
+            ul {
+                gap: 20px;
+            }
+
+            .heading h1 {
+                font-size: 2.5rem;
+            }
+
+            .photo img {
+                width: 180px;
+                height: 180px;
+            }
+
+            .project-main {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .heading h1 {
+                font-size: 2rem;
+            }
+
+            .sub-skills {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background">
+        <video src="media/back.mp4" autoplay loop muted playsinline></video>
+    </div>
+
+    <nav>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#skill">Skills</a></li>
+            <li><a href="#project">Projects</a></li>
+            <li><a href="#qna">FAQ</a></li>
+        </ul>
+    </nav>
+
+    <main class="main">
+        <section class="myself" id="home">
+            <div class="photo">
+                <img src="media/IMG_6922-01.jpg" Profile Picture">
+            </div>
+            <div class="heading">
+                <h1>Hamidur Rahman</h1>
+                <p>Exploring options in cybersecurity, software development and web development</p>
+            </div>
+            <div class="social">
+                <a href="https://github.com/hamidurshohan"><img src="media/git.png" alt="GitHub"></a>
+                <a href="https://www.linkedin.com/in/hamidur-shohan/"><img src="media/linkedin.png" alt="LinkedIn"></a>
+                <a href="https://web.facebook.com/750008646764s"><img src="media/facebook.png" alt="Facebook"></a>
+                <a href="https://www.instagram.com/hamidur_shohan/"><img src="media/instra.png" alt="Instagram"></a>
+                <a href="https://x.com/hamidur_shohan"><img src="media/twter.png" alt="Twitter"></a>
+            </div>
+        </section>
+
+        <section class="all_skills" id="skill">
+            <h1>Skills</h1>
+            <div class="sub-skills">
+                <span>Photoshop</span>
+                <span>Illustrator</span>
+                <span>Python</span>
+                <span>Java</span>
+                <span>JavaScript</span>
+                <span>HTML</span>
+                <span>CSS</span>
+                <span>UI/UX Design</span>
+            </div>
+        </section>
+
+        <section class="project" id="project">
+            <h1>Featured Projects</h1>
+            <div class="project-main">
+                <div class="project-item">
+                    <a href="pages/asset_2025.html">
+                        <img src="robot/asset_2025.jpg" alt="Project 1">
+                        <div class="project-text">
+                            <h2>Asset Skills Competition Calculator making– Munshigonj Polytechnic Institute</h2>
+                            <p>This code was developed as part of the Asset Skills Competition held at Munshigonj
+                                Polytechnic Institute. It showcases problem-solving skills, technical expertise, and
+                                innovative thinking. The implementation demonstrates efficient logic and structured
+                                programming, adhering to competition standards</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-item">
+                    <a href="pages/robotics.html">
+                        <img src="robot/hero.jpg" alt="Project 2">
+                        <div class="project-text">
+                            <h2>Arduino controlled humanoid robot</h2>
+                            <p>A fun demonstration of synchronized servo movements using Arduino Uno and
+                                PCA9685.</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-item">
+                    <a href="pages/website1.html">
+                        <img src="web1/fix-your-website-and-create-responsive.jpg" alt="Project 3">
+                        <div class="project-text">
+                            <h2>My Built Websites</h2>
+                            <p>A showcase of my web development project using HTML and CSS</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-item">
+                    <a href="pages/fun_web.html">
+                        <img src="fun1/giphy-2.gif" alt="Project 4">
+                        <div class="project-text">
+                            <h2>Fun with HTML & CSS: Creative Web Projects</h2>
+                            <p>Exploring creative and interactive projects using just HTML and CSS</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-item">
+                    <a href="pages/radar.html">
+                        <img src="robot/main.jpeg" alt="Project 5">
+                        <div class="project-text">
+                            <h2>Radar System Using Ultrasonic Sensor and Arduino Uno</h2>
+                            <p>Arduino-Powered Ultrasonic Radar: Real-Time Object Detection and Visualization</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <button id="seeMoreBtn">See More</button>
+        </section>
+        <section class="faq-main" id="qna">
+            <h1>Frequently Asked Questions</h1>
+            <div class="faq-item">
+                <input type="checkbox" id="q1">
+                <label class="faq-question" for="q1">Can you introduce yourself?</label>
+                <div class="faq-answer">
+                    <p>My name is Hamidur Rahman, also known as Shohan. I am currently studing diploma in engineering at
+                        Munshigonj Polytechnic Institute in computer science and technology,with a strong focus on
+                        cybersecurity and threat analysis</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <input type="checkbox" id="q2">
+                <label class="faq-question" for="q2">What operating system do you primarily work with?</label>
+                <div class="faq-answer">
+                    <p>I primarily use Linux, with my current distribution being Arch Linux. I favor it for its
+                        flexibility, control, and rolling-release model, which aligns with my cybersecurity learning
+                        requirements</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <input type="checkbox" id="q3">
+                <label class="faq-question" for="q3">What are your professional aspirations?</label>
+                <div class="faq-answer">
+                    <p>My goal is to establish myself as a highly skilled threat analyst within the next five years,
+                        specializing in cybersecurity defense, vulnerability assessments, and ethical hacking</p>
+                </div>
+            </div>
+        </section>
+        <script>
+            document.getElementById('seeMoreBtn').addEventListener('click', function () {
+                const projectMain = document.querySelector('.project-main');
+                projectMain.classList.toggle('show-all');
+                this.textContent = projectMain.classList.contains('show-all') ? 'Show Less' : 'See More';
+            });
+        </script>
+    </main>
+</body>
+
+</html>
